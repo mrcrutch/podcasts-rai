@@ -1,11 +1,4 @@
-#!/usr/bin/python3
 
-from bs4 import BeautifulSoup
-import requests
-
-podcasts = []
-
-html_header="""
 
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -207,9 +200,7 @@ html_header="""
                                                 style="font-family:roboto;font-size:14px;line-height:1;text-align:left;color:black;">
 
 
-"""
-
-html_footer = """
+<p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=7&channel=RF1>Mondo motori</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=76&channel=RF1>Pronto salute</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=77&channel=RF1>La radio ne parla </a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=80&channel=RF2>610</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=83&channel=RF2>Caterpillar</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=150&channel=RF2>Il Ruggito Del Coniglio</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=171&channel=RF2>Black Out</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=190&channel=RF1>Radio anch&apos;io</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=210&channel=RF1>Con parole mie</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=272&channel=RF3>Ad Alta Voce</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=273&channel=RF3>Radio3Scienza  ARCHIVIO </a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=274&channel=RF3>Fahrenheit</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=291&channel=RF3>Radio3Mondo</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=310&channel=RF1>Il Comunicattivo</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=330&channel=RF1>Radiouno Musica</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=350&channel=RF1>Ho perso il trend</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=352&channel=RF1>Pianeta dimenticato</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=450&channel=RF3>Hollywood Party </a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=491&channel=RF3>ARCHIVIO Uomini e Profeti 2013-2017</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=530&channel=>I miti dello sport</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=532&channel=>Note di luce, note di colore...</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=551&channel=>L&apos;Almanacco di Radioscrigno</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=610&channel=>Pillole di buon umore </a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=651&channel=RF2>Ottovolante</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=690&channel=RF2>Tutti i Colori del Giallo</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=730&channel=>Scienza, cultura e...</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=731&channel=>Personaggi al microfono</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=770&channel=RF1>Magazine</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=811&channel=RF3>Prima Pagina</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=850&channel=RF1>Radio anch&apos;io Sport</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=872&channel=RF3>I concerti del Quirinale di Radio3</a></p><p align=left><a href=http://www.radio.rai.it/rss/podcast/rssradio.jsp?id=890&channel=RF2>Catersport </a></p>
 
                                             </div>
                                         </td>
@@ -225,34 +216,3 @@ html_footer = """
 </body>
 </html>
 
-"""
-
-
-f = open("podcasts.html", "w")
-f.write(html_header)
-
-print("Wait while adding podcasts to podcasts.html file in current directory...")
-for i in range(900):
-    i = str(i)
-    link = "http://www.radio.rai.it/rss/podcast/rssradio.jsp?id="+i
-    linkreq = requests.get(link)
-
-    soup = BeautifulSoup(linkreq.text, 'html.parser')
-    titolo = soup.find('title')
-    if titolo is not None:
-        if "Radio1" in soup.text or "Radio 1" in soup.text:
-           channel="RF1"
-        elif "Radio2" in soup.text or "Radio 2" in soup.text:
-           channel="RF2"
-        elif "Radio3" in soup.text or "Radio 3" in soup.text:
-           channel="RF3"
-        else:
-           channel=""
-
-        link = link+"&channel="+channel
-        f.write("<p align=""left""><a href="+link+">"+titolo.string+"</a></p>")
-
-
-f.write(html_footer)
-f.close()
-print("podcasts.html file has been written")
